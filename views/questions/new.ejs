@@ -1,0 +1,27 @@
+<% layout('layouts/boilerplate')%>
+
+<main class="container">
+    <form action="/portals/<%= id %>/newquestion" method="POST" class="validated-form" enctype="multipart/form-data" novalidate>
+        <div class="form-check">
+            <input type="radio" name="type" id="type" class="form-check-input" value="mcq" checked>
+            <label for="type" class="form-check-label" >MCQ</label>
+        </div>
+        <div class="form-check">
+            <input type="radio" name="type" id="type" class="form-check-input" value="descriptive">
+            <label for="type" class="form-check-label" >Descriptive</label>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="question">Question</label>
+            <!-- <input class="form-control" type="file" id="question" name="question" required> -->
+            <label for="image">Image</label>
+            <input type="file" id="image" name="product">
+            <!-- <input type="file" class="form-control-file" id="question" name="uploaded_file"> -->
+            <div class="invalid-feedback">
+                Please provide a valid state.
+            </div>
+        </div>
+        <div class="mb-3">
+            <button class="btn btn-success">Add Question</button>
+        </div>
+    </form>
+</main>

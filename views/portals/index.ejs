@@ -1,0 +1,27 @@
+<% layout('layouts/boilerplate')%>
+
+<main class="container">
+    <div class="d-flex justify-content-center">
+        <a class="btn btn-info" href="/portals/new">New</a>
+    </div>
+    <% for(portal of portals){ %>
+        <div class="card my-3">
+            <div class="row">
+                <div class="col-md-4">
+                    <img src="https://i.guim.co.uk/img/media/776c66269652536180db40ab3507ed2eaf6ba649/88_0_3600_2160/master/3600.jpg?width=1200&height=900&quality=85&auto=format&fit=crop&s=7c4e5b9de7d59058d5b4a74755e9c6f1" alt="" class="img-fluid">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title"><%= portal.subject %> </h5>
+                        <p class="card-text">Date: <%= portal.date%></p>
+                        <p class="card-text">Number of MCQ Questions: <%= portal.nomcq%></p>
+                        <p class="card-text"> Number of Descreptive Questions: <%= portal.nodesc%></p>
+                        <p class="card-text">Total Number of Questions: <%= portal.noquestion%></p>
+                        <p><%= portal._id %></p>
+                        <a href="/portals/<%= portal._id %>" class="btn btn-primary">View Portal</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <%}%>
+</main>
