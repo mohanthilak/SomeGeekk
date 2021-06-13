@@ -12,6 +12,7 @@ const User = require("./models/user");
 const portalRoutes = require("./routes/portals");
 const userRoutes = require("./routes/user");
 const questionsRoutes = require("./routes/question");
+const optionRoutes = require("./routes/options");
 
 mongoose.connect("mongodb://localhost:27017/somegeek1", {
   useNewUrlParser: true,
@@ -35,7 +36,7 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 
-// app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "public")));
 
 const sessionConfig = {
   secret: "thisshouldbeasecret!",
@@ -71,6 +72,7 @@ app.use((req, res, next) => {
 app.use("/portals", portalRoutes);
 app.use("/", userRoutes);
 app.use("/portals/:id", questionsRoutes);
+app.use("/", optionRoutes);
 
 app.get("/", (req, res) => {
   res.render("home/home");

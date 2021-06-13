@@ -6,13 +6,17 @@ const questionSchema = new Schema({
   type: String,
   solution: [{ type: String }],
   questionLoc: String,
-  opa: Number,
-  opb: Number,
-  opc: Number,
-  opd: Number,
+  opa: { type: Number, default: 0 },
+  opb: { type: Number, default: 0 },
+  opc: { type: Number, default: 0 },
+  opd: { type: Number, default: 0 },
   portal: {
     type: Schema.Types.ObjectId,
-    ref: "Portals",
+    ref: "Portal",
+  },
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
   },
 });
 

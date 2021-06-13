@@ -8,11 +8,18 @@ const userSchema = new Schema({
     required: true,
     unique: true,
   },
+  isAdmin: Boolean,
   answer: [
     {
       question: String,
       previousOp: String,
       newOp: String,
+    },
+  ],
+  questions: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Question",
     },
   ],
 });
