@@ -9,7 +9,7 @@
 
 <% for(question of questions.question){ %>
     <div class="card mb-3 text-white bg-dark mb-3">
-        <img src="http://localhost:3000/<%= question.questionLoc %>" class="card-img-top img-fluid">
+        <img src="<%= question.questionLoc.url %>" class="card-img-top img-fluid">
         <div class="card-body">
           <h6 class="card-title"><%= question.question %> </h6>
 

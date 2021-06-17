@@ -8,14 +8,8 @@ const path = require("path");
 const { isLoggedin } = require("../middleware");
 const { createWorker } = require("tesseract.js");
 const worker = createWorker();
-
-var storage = multer.diskStorage({
-  destination: "./public/uploads/",
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + file.fieldname + path.extname(file.originalname));
-  },
-});
-var upload = multer({ storage: storage });
+const { storage, cloudinary } = require("../cloudinary");
+const upload = multer({ storage });
 
 async function imageConvert(txt) {
   let imgConverted;
@@ -25,7 +19,7 @@ async function imageConvert(txt) {
     await worker.initialize("eng");
     const {
       data: { text },
-    } = await worker.recognize(`./public/uploads/${txt}`);
+    } = await worker.recognize(txt);
     imgConverted = text.replace(/(\r\n|\n|\r)/gm, "");
   })();
   return imgConverted;
@@ -51,7 +45,7 @@ async function uploadQuestion(id, req, text) {
   const questions = new Question({
     question: text,
     type: req.body.type,
-    questionLoc: `uploads/${req.files.product[0].filename}`,
+    questionLoc: { url: req.file.path, filename: req.file.filename },
   });
   questions.user = req.user._id;
   questions.portal = id;
@@ -68,19 +62,24 @@ router.get("/newquestion", isLoggedin, (req, res) => {
   res.render("questions/new", { id });
 });
 
-const multipleUpload = upload.fields([{ name: "product" }]);
-
-router.post("/newquestion", isLoggedin, multipleUpload, async (req, res) => {
-  const { id } = req.params;
-  let text = await imageConvert(req.files.product[0].filename);
-  let checkResult = await check(id, req, text);
-  if (checkResult) {
-    await uploadQuestion(id, req, text);
-    return res.redirect(`/portals/${id}`);
-  } else if (!checkResult) {
-    req.flash("success", "Question exist!");
-    return res.redirect(`/portals/${id}`);
+router.post(
+  "/newquestion",
+  isLoggedin,
+  upload.single("product"),
+  async (req, res) => {
+    const { id } = req.params;
+    let text = await imageConvert(req.file.path);
+    console.log(text);
+    let checkResult = await check(id, req, text);
+    if (checkResult) {
+      await uploadQuestion(id, req, text);
+      return res.redirect(`/portals/${id}`);
+    } else if (!checkResult) {
+      await cloudinary.uploader.destroy(req.file.filename);
+      req.flash("success", "Question exist!");
+      return res.redirect(`/portals/${id}`);
+    }
   }
-});
+);
 
 module.exports = router;
