@@ -34,7 +34,7 @@ router.post(
     req.flash("success", "Welcome Back!");
     const redirectUrl = req.session.returnTo || "/portals";
     delete req.session.returnTo;
-    res.redirect("/portals");
+    res.redirect(redirectUrl);
   }
 );
 

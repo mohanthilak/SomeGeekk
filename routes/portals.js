@@ -19,9 +19,9 @@ router.post("/", isLoggedin, async (req, res) => {
   res.redirect(`/portals/${portal._id}`);
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", isLoggedin, async (req, res) => {
   const { id } = req.params;
-  const questions = await Portal.findById(id).populate("questions");
+  const questions = await Portal.findById(id).populate("question");
   console.log(questions);
   if (!questions) {
     req.flash("error", "No Portal");

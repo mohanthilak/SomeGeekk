@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const portalSchema = new Schema({
-  Subject: String,
+  subject: String,
   date: String,
   question: [
     {
