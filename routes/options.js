@@ -83,9 +83,10 @@ async function inde(x, req, type) {
 router.post("/optionclicked/:id", async (req, res) => {
   const { id } = req.params;
   const question = await Question.findById(id).populate("portal");
-  console.log(question);
-  optionclicked(req);
-  // res.redirect("/portals/");
+  const portalId = question.portal._id;
+  await optionclicked(req);
+
+  res.redirect(`/portals/${portalId}`);
 });
 
 module.exports = router;
