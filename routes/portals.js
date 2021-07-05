@@ -5,6 +5,7 @@ const { isLoggedin } = require("../middleware");
 
 router.get("/", async (req, res) => {
   const portals = await Portal.find({});
+  portals.reverse();
   res.render("portals/index", { portals });
 });
 
