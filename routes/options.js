@@ -3,6 +3,8 @@ const router = express.Router();
 const User = require("../models/user");
 const Question = require("../models/questions");
 
+//This route is for managing options clicks.
+
 async function optionclicked(req) {
   const { id } = req.params;
   const que = await Question.findById(id);
