@@ -104,7 +104,7 @@ app.get("/", (req, res) => {
   res.render("home/home");
 });
 
-const portNumber = process.env.DB_URL || 3000;
+const portNumber = process.env.PORT || 3000;
 app.listen(portNumber, () => {
   console.log(`serving on port ${portNumber}!`);
 });
